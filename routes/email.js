@@ -6,9 +6,9 @@
 
   router = express.Router();
 
-  api_key = 'key-ba206f91379f71160f6dbd943df6c8a9';
+  api_key = '{API KEY}';
 
-  domain = 'sandboxdba4f7a1e909423499712ca23de2fb01.mailgun.org';
+  domain = '{DOMAIN}';
 
   mailgun = require('mailgun-js')({
     apiKey: api_key,
@@ -16,7 +16,7 @@
   });
 
   router.post('/sendemail', function(req, res) {
-    req.body.from = 'Test <mailgun@sandboxdba4f7a1e909423499712ca23de2fb01.mailgun.org>';
+    req.body.from = '{FROM}';
     mailgun.messages().send(req.body, function(error, body) {
       res.send(body.message ? {
         msg: body.message
