@@ -22,6 +22,7 @@ block content
                 br
                 strong Location:
                 |  <span id='userInfoLocation'></span>
+                br
         // /USER INFO
 
         // USER LIST
@@ -31,6 +32,7 @@ block content
                 thead
                     th UserName
                     th Email
+                    th Phone
                     th Delete?
                 tbody
         // /USER LIST
@@ -47,6 +49,8 @@ block content
                 br
                 input#inputUserLocation(type='text', placeholder='Location')
                 input#inputUserGender(type='text', placeholder='gender')
+                br
+                input#inputUserPhone(type='text', placeholder='phone')
                 br
                 button#btnAddUser Add User
         // /ADD USER

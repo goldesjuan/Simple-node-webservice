@@ -18,6 +18,9 @@ $(document).ready ->
     #Email user link click
     $('#userList table tbody').on 'click', 'td a.linkemailuser', emailUser
 
+    #Sms user link click
+    $('#userList table tbody').on 'click', 'td a.linksmsuser', smsUser
+
 #Functions =================================================================
 
 #Fill table with data
@@ -36,6 +39,7 @@ populateTable = ->
             tableContent += '<tr>'
             tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.username + '">' + this.username + '</a></td>'
             tableContent += '<td><a href="#" class="linkemailuser" rel="' + this.email + '">' + this.email + '</a></td>'
+            tableContent += '<td><a href="#" class="linksmsuser" rel="' + this.phone + '">'+ if this.phone? then this.phone else 'no phone' + '</a></td>'
             tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>'
             tableContent += '</tr>'
             return
@@ -86,7 +90,8 @@ addUser = (event) ->
             'fullname': $('#addUser fieldset input#inputUserFullname').val(),
             'age': $('#addUser fieldset input#inputUserAge').val(),
             'location': $('#addUser fieldset input#inputUserLocation').val(),
-            'gender': $('#addUser fieldset input#inputUserGender').val()
+            'gender': $('#addUser fieldset input#inputUserGender').val(),
+            'phone' : $('#addUser fieldset input#inputUserPhone').val()
 
         #Use AJAX to post the object to the adduser service
         $.ajax(
@@ -149,14 +154,18 @@ emailUser = (event) ->
     event.preventDefault
 
     userEmail = $(this).attr 'rel'
+
+    # Pop up confirmation dialog
     confirmation = confirm 'Send email to ' + userEmail + '?'
 
+    # Create JSON data
     emailData =
         'from' : '',
         'to' : userEmail,
         'subject' : 'Sent from web',
         'text' : 'This email has been sent using a Node webservice and Mailgun'
 
+    # If user confirmed, send POST to sendemail
     if confirmation
         $.ajax(
             type: 'POST',
@@ -164,6 +173,8 @@ emailUser = (event) ->
             url: '/email/sendemail',
             dataType: 'JSON'
         ).done (response) ->
+
+            # Check if request was succesful or not and alert the user.
             if response.msg.indexOf 'Queued' > -1
                 alert 'Email sent'
             else
@@ -172,6 +183,45 @@ emailUser = (event) ->
             return
     else
         #If they replied no to confirmation, do nothing
+        return false
+    return
+
+#Send sms to user
+
+smsUser = (event) ->
+    event.preventDefault
+
+    userPhone = $(this).attr 'rel'
+
+    # If phone is valid send POST to sendsms
+    if userPhone?
+
+        # Promt user for message.
+        message = prompt 'Please enter your message for ' + userPhone
+
+        # Create JSON data
+        smsData =
+            'to' : userPhone,
+            'body' : message
+
+        # Send post to sendsms
+        $.ajax(
+            type : 'POST',
+            data : smsData,
+            url : '/email/sendsms',
+            dataType : 'JSON'
+        ).done (response) ->
+
+            # Chek if request was succesful or not and alert the user.
+            unless response.status is 'ERROR'
+                alert 'Message sent'
+            else
+                alert 'Error sending message'
+            return
+    else
+
+        # Alert if phone is not valid
+        alert 'Invalid phone number'
         return false
     return
 

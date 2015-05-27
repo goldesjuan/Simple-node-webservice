@@ -16,6 +16,7 @@
     "mongodb": "~1.4",
     "mongoskin": "*",
     "morgan": "~1.0.0",
-    "serve-favicon": "*"
+    "serve-favicon": "*",
+    "twilio" : "*"
   }
 }

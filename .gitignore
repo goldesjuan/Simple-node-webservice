@@ -1,0 +1,7 @@
+#Folders
+/bin
+/data
+/node_modules
+
+#Ignore log files
+*.log
