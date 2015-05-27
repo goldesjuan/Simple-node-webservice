@@ -29,10 +29,16 @@
   router.post('/sendemail', function(req, res) {
     req.body.from = '{FROM}';
     mailgun.messages().send(req.body, function(error, body) {
-      res.send(body.message != null ? {
-        msg: body.message
-      } : error);
-      console.log(body);
+      if (body != null) {
+        res.send({
+          'status': 'OK'
+        });
+      } else {
+        res.send({
+          'status': 'ERROR'
+        });
+        console.log(error);
+      }
     });
   });
 

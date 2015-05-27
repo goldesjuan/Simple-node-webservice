@@ -175,11 +175,10 @@ emailUser = (event) ->
         ).done (response) ->
 
             # Check if request was succesful or not and alert the user.
-            if response.msg.indexOf 'Queued' > -1
+            unless response.status is 'ERROR'
                 alert 'Email sent'
             else
                 alert 'Error sending email'
-
             return
     else
         #If they replied no to confirmation, do nothing

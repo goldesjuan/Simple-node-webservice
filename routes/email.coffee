@@ -23,8 +23,11 @@ twilio = require('twilio')(twilio_accountSid, twilio_authToken);
 router.post '/sendemail', (req, res) ->
     req.body.from = '{FROM}'
     mailgun.messages().send req.body, (error, body) ->
-        res.send if body.message? then msg: body.message else error
-        console.log body
+        if body?
+            res.send 'status' : 'OK'
+        else
+            res.send 'status' : 'ERROR'
+            console.log error
         return
     return
 

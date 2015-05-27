@@ -119,7 +119,7 @@
         url: '/email/sendemail',
         dataType: 'JSON'
       }).done(function(response) {
-        if (response.msg.indexOf('Queued' > -1)) {
+        if (response.status !== 'ERROR') {
           alert('Email sent');
         } else {
           alert('Error sending email');
