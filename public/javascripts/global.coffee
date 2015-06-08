@@ -29,7 +29,7 @@ populateTable = ->
     #Empty content string
     tableContent = ''
 
-    $.getJSON 'users/userlist', (data) ->
+    $.getJSON 'userlist', (data) ->
 
         #Stick our user data array into a userlist variable in the global object
         userListData = data
@@ -97,7 +97,7 @@ addUser = (event) ->
         $.ajax(
             type : 'POST'
             data: newUser,
-            url: '/users/adduser',
+            url: '/adduser',
             dataType: 'JSON'
         ).done (response) ->
 
@@ -133,7 +133,7 @@ deleteUser = (event) ->
         #if they did, then delete
         $.ajax(
             type: 'DELETE',
-            url: '/users/deleteuser/' + $(this).attr 'rel'
+            url: '/deleteuser/' + $(this).attr 'rel'
         ).done (response) ->
 
             #Check for unsuccesful response and alert message

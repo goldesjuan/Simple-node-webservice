@@ -16,7 +16,7 @@
   populateTable = function() {
     var tableContent;
     tableContent = '';
-    $.getJSON('users/userlist', function(data) {
+    $.getJSON('userlist', function(data) {
       userListData = data;
       $.each(data, function() {
         tableContent += '<tr>';
@@ -66,7 +66,7 @@
       $.ajax({
         type: 'POST',
         data: newUser,
-        url: '/users/adduser',
+        url: '/adduser',
         dataType: 'JSON'
       }).done(function(response) {
         if (response.msg === '') {
