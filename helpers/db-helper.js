@@ -21,7 +21,7 @@
     }
 
     DbHelper.prototype.getCollection = function(collectionName, callback) {
-      this.db.collection(collectionName).find().toArray(function(error, result) {
+      return this.db.collection(collectionName).find().toArray(function(error, result) {
         if (error != null) {
           console.log("Error finding items of collection " + collectionName + " : " + (util.inspect(error)));
           return callback(error);
@@ -33,9 +33,9 @@
     DbHelper.prototype.insertUser = function(user, finalCallback) {
       var checkDuplicates, collection, createUser;
       collection = this.db.collection('userlist');
-      async.waterfall([
+      return async.waterfall([
         checkDuplicates = function(callback) {
-          collection.findOne({
+          return collection.findOne({
             'username': user.username
           }, function(error, object) {
             if (error != null) {
@@ -50,7 +50,7 @@
           if (alreadyExists) {
             return callback(null, 'Ok');
           }
-          collection.insert(user, function(error, result) {
+          return collection.insert(user, function(error, result) {
             if (error != null) {
               return callback(error);
             } else {
@@ -67,7 +67,7 @@
     };
 
     DbHelper.prototype.deleteUser = function(userId, callback) {
-      this.db.collection('userlist').removeById(userId, function(error, result) {
+      return this.db.collection('userlist').removeById(userId, function(error, result) {
         if (error != null) {
           return callback(error);
         } else {

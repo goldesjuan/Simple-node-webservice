@@ -16,11 +16,11 @@
 
   routes = require('./routes/index');
 
-  Users = require('./routes/users');
+  Users = require('./services/users');
 
   email = require('./routes/email');
 
-  DbHelper = require('./routes/db-helper');
+  DbHelper = require('./helpers/db-helper');
 
   app = express();
 
@@ -47,6 +47,8 @@
   app.get('/userlist', users.list);
 
   app.post('/adduser', users.postUser);
+
+  app["delete"]('/deleteuser/:id', users.deleteUser);
 
   app.use('/', routes);
 

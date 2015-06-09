@@ -22,9 +22,11 @@ class Users
         @database.insertUser(req.body, (error, result)->
             if error?
                 console.log "Error inserting object in collection userlist : #{util.inspect error}"
-                res.status(500).send 'Error inserting userlist'
+
+                # AJAX call excepts a json response.
+                res.status(500).send error : 'Error inserting userlist'
             else
-                res.status(200).send 'Ok'
+                res.status(200).send status : 200
         )
     # DELETE user
     deleteUser : (req, res)=>

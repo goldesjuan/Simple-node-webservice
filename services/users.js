@@ -34,9 +34,13 @@
       return this.database.insertUser(req.body, function(error, result) {
         if (error != null) {
           console.log("Error inserting object in collection userlist : " + (util.inspect(error)));
-          return res.status(500).send('Error inserting userlist');
+          return res.status(500).send({
+            error: 'Error inserting userlist'
+          });
         } else {
-          return res.status(200).send('Ok');
+          return res.status(200).send({
+            status: 200
+          });
         }
       });
     };

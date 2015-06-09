@@ -25,7 +25,7 @@ app.use express.static(path.join(__dirname, 'public'))
 
 app.get '/userlist', users.list
 app.post '/adduser', users.postUser
-app.delete '/deleteuser/:id', deleteUser
+app.delete '/deleteuser/:id', users.deleteUser
 
 app.use '/', routes
 #app.use '/users', users

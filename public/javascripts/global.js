@@ -69,11 +69,11 @@
         url: '/adduser',
         dataType: 'JSON'
       }).done(function(response) {
-        if (response.msg === '') {
+        if (response.status === 200) {
           $('#addUser fieldset input').val('');
-          populateTable();
-        } else {
-          alert('Error: ' + response.msg);
+          return populateTable();
+        } else if (typeof error !== "undefined" && error !== null) {
+          return alert("Error " + response.error);
         }
       });
     } else {
@@ -89,12 +89,13 @@
     if (confirmation) {
       $.ajax({
         type: 'DELETE',
-        url: '/users/deleteuser/' + $(this).attr('rel')
-      }).done(function(response) {
-        if (response.msg !== '') {
-          alert('Error: ' + response.msg);
+        url: "/deleteuser/" + ($(this).attr('rel')),
+        success: function(response) {
+          return populateTable();
+        },
+        error: function(error) {
+          return alert("error " + error);
         }
-        populateTable();
       });
     } else {
       return false;

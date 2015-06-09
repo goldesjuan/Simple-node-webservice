@@ -100,21 +100,14 @@ addUser = (event) ->
             url: '/adduser',
             dataType: 'JSON'
         ).done (response) ->
-
-            #Check for succesful response
-            if response.msg is ''
-
-                #Clear form inputs
+            if response.status is 200
+                 #Clear form inputs
                 $('#addUser fieldset input').val ''
 
                 #Update the table
                 populateTable()
-
-            else
-                #If something goes wrong, alert error message
-                alert 'Error: ' + response.msg
-
-            return
+            else if error?
+                alert "Error #{response.error}"
     else
         #If error count is more than 0, alert error
         alert 'Please fill in all fields'
@@ -133,16 +126,13 @@ deleteUser = (event) ->
         #if they did, then delete
         $.ajax(
             type: 'DELETE',
-            url: '/deleteuser/' + $(this).attr 'rel'
-        ).done (response) ->
-
-            #Check for unsuccesful response and alert message
-            unless response.msg is ''
-                alert 'Error: ' + response.msg
-
-            #Update the table
-            populateTable()
-            return
+            url: "/deleteuser/#{$(this).attr 'rel'}",
+            success : (response) ->
+                #Update the table
+                populateTable()
+            error : (error) ->
+                alert "error #{error}"
+        )
     else
         #If they replied no to confirmation, do nothing
         return false
