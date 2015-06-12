@@ -76,6 +76,54 @@
       });
     };
 
+    DbHelper.prototype.getEmail = function(emailId, callback) {
+      return this.db.collection('emails').find({
+        'v:custom_id': emailId
+      }).limit(1).toArray(function(error, result) {
+        if (error != null) {
+          console.log("Error finding email " + emailId + " : " + (util.inspect(error)));
+          return callback(error);
+        } else {
+          return callback(null, result[0]);
+        }
+      });
+    };
+
+    DbHelper.prototype.insertEmail = function(email, callback) {
+      return this.db.collection('emails').insert(email, function(error, result) {
+        if (error != null) {
+          console.log("Error inserting email : " + (util.inspect(error)));
+          return callback(error);
+        } else {
+          return callback(null);
+        }
+      });
+    };
+
+    DbHelper.prototype.getSms = function(smsId, callback) {
+      return this.db.collection('sms').find({
+        'custom_id': smsId
+      }).limit(1).toArray(function(error, result) {
+        if (error != null) {
+          console.log("Error finding sms " + smsId + " : " + (util.inspect(error)));
+          return callback(error);
+        } else {
+          return callback(null, result[0]);
+        }
+      });
+    };
+
+    DbHelper.prototype.insertSms = function(sms, callback) {
+      return this.db.collection('sms').insert(sms, function(error, result) {
+        if (error != null) {
+          console.log("Error inserting sms : " + (util.inspect(error)));
+          return callback(error);
+        } else {
+          return callback(null);
+        }
+      });
+    };
+
     return DbHelper;
 
   })();

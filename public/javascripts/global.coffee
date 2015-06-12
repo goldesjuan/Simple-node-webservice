@@ -150,26 +150,25 @@ emailUser = (event) ->
 
     # Create JSON data
     emailData =
-        'from' : '',
+        'from' : 'Notifications <youremail@yourdomain.com>',
         'to' : userEmail,
         'subject' : 'Sent from web',
         'text' : 'This email has been sent using a Node webservice and Mailgun'
+        # Idealy we would use a custom id generator
+        'v:custom_id' : Date.now()
 
-    # If user confirmed, send POST to sendemail
+    # If user confirmed, send POST to postemail
     if confirmation
         $.ajax(
             type: 'POST',
             data: emailData,
-            url: '/email/sendemail',
+            url: '/postemail',
             dataType: 'JSON'
         ).done (response) ->
-
-            # Check if request was succesful or not and alert the user.
-            unless response.status is 'ERROR'
+            if response.status is 200
                 alert 'Email sent'
             else
                 alert 'Error sending email'
-            return
     else
         #If they replied no to confirmation, do nothing
         return false
@@ -182,7 +181,7 @@ smsUser = (event) ->
 
     userPhone = $(this).attr 'rel'
 
-    # If phone is valid send POST to sendsms
+    # If phone is not empty send POST to sendsms
     if userPhone?
 
         # Promt user for message.
@@ -190,27 +189,29 @@ smsUser = (event) ->
 
         # Create JSON data
         smsData =
-            'to' : userPhone,
-            'body' : message
+            'sms' : {
+                'from' : '+12055066728'
+                'to' : userPhone,
+                'body' : message
+            },
+            # Idealy we would use a custom id generator
+            'custom_id' :  Date.now()
 
-        # Send post to sendsms
+        # Send post to postsms
         $.ajax(
             type : 'POST',
             data : smsData,
-            url : '/email/sendsms',
+            url : '/postsms',
             dataType : 'JSON'
         ).done (response) ->
-
-            # Chek if request was succesful or not and alert the user.
-            unless response.status is 'ERROR'
+            if response.status is 200
                 alert 'Message sent'
             else
-                alert 'Error sending message'
-            return
+                'Error sending message'
     else
 
-        # Alert if phone is not valid
-        alert 'Invalid phone number'
+        # Alert if phone is empty
+        alert 'No phone number specified'
         return false
     return
 

@@ -108,22 +108,23 @@
     userEmail = $(this).attr('rel');
     confirmation = confirm('Send email to ' + userEmail + '?');
     emailData = {
-      'from': '',
+      'from': 'Notifications <youremail@yourdomain.com>',
       'to': userEmail,
       'subject': 'Sent from web',
-      'text': 'This email has been sent using a Node webservice and Mailgun'
+      'text': 'This email has been sent using a Node webservice and Mailgun',
+      'v:custom_id': Date.now()
     };
     if (confirmation) {
       $.ajax({
         type: 'POST',
         data: emailData,
-        url: '/email/sendemail',
+        url: '/postemail',
         dataType: 'JSON'
       }).done(function(response) {
-        if (response.status !== 'ERROR') {
-          alert('Email sent');
+        if (response.status === 200) {
+          return alert('Email sent');
         } else {
-          alert('Error sending email');
+          return alert('Error sending email');
         }
       });
     } else {
@@ -138,23 +139,27 @@
     if (userPhone != null) {
       message = prompt('Please enter your message for ' + userPhone);
       smsData = {
-        'to': userPhone,
-        'body': message
+        'sms': {
+          'from': '+12055066728',
+          'to': userPhone,
+          'body': message
+        },
+        'custom_id': Date.now()
       };
       $.ajax({
         type: 'POST',
         data: smsData,
-        url: '/email/sendsms',
+        url: '/postsms',
         dataType: 'JSON'
       }).done(function(response) {
-        if (response.status !== 'ERROR') {
-          alert('Message sent');
+        if (response.status === 200) {
+          return alert('Message sent');
         } else {
-          alert('Error sending message');
+          return 'Error sending message';
         }
       });
     } else {
-      alert('Invalid phone number');
+      alert('No phone number specified');
       return false;
     }
   };

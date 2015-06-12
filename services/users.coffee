@@ -2,8 +2,6 @@ express = require 'express'
 async = require 'async'
 util = require 'util'
 
-router = express.Router()
-
 class Users
     constructor : (database) ->
         @database = database
@@ -23,8 +21,8 @@ class Users
             if error?
                 console.log "Error inserting object in collection userlist : #{util.inspect error}"
 
-                # AJAX call excepts a json response.
-                res.status(500).send error : 'Error inserting userlist'
+                # AJAX call excepts a JSON response.
+                res.status(500).send error : 'Error inserting user'
             else
                 res.status(200).send status : 200
         )
