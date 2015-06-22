@@ -6,13 +6,17 @@ cookieParser = require 'cookie-parser'
 bodyParser = require 'body-parser'
 routes = require './routes/index'
 Users = require './services/users'
-Notifications = require './services/notifications'
-DbHelper = require './helpers/db-helper'
+Emails = require './facades/emails'
+Sms = require './facades/sms'
+#Notifications = require './services/notifications'
+Database = require './facades/database'
 
 app = express()
-database = new DbHelper 'mongodb://localhost:27017/nodetest2'
+database = new Database 'mongodb://localhost:27017/nodetest2'
 users = new Users database
-notifications = new Notifications database
+#notifications = new Notifications database
+emails = new Emails database
+sms = new Sms database
 
 #view engine setup
 app.set 'views', path.join(__dirname, 'views')
@@ -26,9 +30,9 @@ app.use express.static(path.join(__dirname, 'public'))
 
 app.get '/userlist', users.list
 app.post '/adduser', users.postUser
-app.delete '/deleteuser/:id', users.deleteUser
-app.post '/postemail', notifications.postEmail
-app.post '/postsms', notifications.postSms
+app.delete '/users/:id', users.delete
+app.post '/postemail', emails.postEmail
+app.post '/postsms', sms.postSms
 
 app.use '/', routes
 

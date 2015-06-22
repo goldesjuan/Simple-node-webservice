@@ -11,7 +11,7 @@
 
   Users = (function() {
     function Users(database) {
-      this.deleteUser = bind(this.deleteUser, this);
+      this["delete"] = bind(this["delete"], this);
       this.postUser = bind(this.postUser, this);
       this.list = bind(this.list, this);
       this.database = database;
@@ -43,7 +43,7 @@
       });
     };
 
-    Users.prototype.deleteUser = function(req, res) {
+    Users.prototype["delete"] = function(req, res) {
       var userId;
       userId = req.params.id;
       return this.database.deleteUser(userId, function(error, result) {

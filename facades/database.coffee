@@ -56,14 +56,13 @@ class DbHelper
                 callback null
         )
 
-    getEmail : (emailId, callback) ->
-        # Ideally we would have a date index or a timestamped id to optimize this.
-        @db.collection('emails').find({'v:custom_id' : emailId}).limit(1).toArray( (error, result) ->
+    getEmails : (emailHash, callback) ->
+        @db.collection('emails').find({'hash' : emailHash}).toArray( (error, result) ->
             if error?
-                console.log "Error finding email #{emailId} : #{util.inspect error}"
+                console.log "Error finding email #{emailHash} : #{util.inspect error}"
                 callback error
             else
-                callback null, result[0]
+                callback null, result
         )
 
     insertEmail : (email, callback) ->
@@ -75,13 +74,13 @@ class DbHelper
                 callback null
         )
 
-    getSms : (smsId, callback) ->
-        @db.collection('sms').find({'custom_id' : smsId}).limit(1).toArray( (error, result) ->
+    getSms : (smsHash, callback) ->
+        @db.collection('sms').find({'hash' : smsHash}).toArray( (error, result) ->
             if error?
-                console.log "Error finding sms #{smsId} : #{util.inspect error}"
+                console.log "Error finding sms #{smsHash} : #{util.inspect error}"
                 callback error
             else
-                callback null, result[0]
+                callback null, result
         )
 
     insertSms : (sms, callback) ->

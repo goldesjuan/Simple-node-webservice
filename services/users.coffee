@@ -27,7 +27,7 @@ class Users
                 res.status(200).send status : 200
         )
     # DELETE user
-    deleteUser : (req, res)=>
+    delete : (req, res)=>
         userId = req.params.id
         @database.deleteUser(userId, (error, result)->
             if error?

@@ -126,7 +126,7 @@ deleteUser = (event) ->
         #if they did, then delete
         $.ajax(
             type: 'DELETE',
-            url: "/deleteuser/#{$(this).attr 'rel'}",
+            url: "/users/#{$(this).attr 'rel'}",
             success : (response) ->
                 #Update the table
                 populateTable()
@@ -152,10 +152,8 @@ emailUser = (event) ->
     emailData =
         'from' : 'Notifications <youremail@yourdomain.com>',
         'to' : userEmail,
-        'subject' : 'Sent from web',
-        'text' : 'This email has been sent using a Node webservice and Mailgun'
-        # Idealy we would use a custom id generator
-        'v:custom_id' : Date.now()
+        'subject' : 'Sent using Mailgun',
+        'text' : 'This email has been sent using Mailgun API'
 
     # If user confirmed, send POST to postemail
     if confirmation
@@ -189,13 +187,9 @@ smsUser = (event) ->
 
         # Create JSON data
         smsData =
-            'sms' : {
-                'from' : '+12055066728'
-                'to' : userPhone,
-                'body' : message
-            },
-            # Idealy we would use a custom id generator
-            'custom_id' :  Date.now()
+            'from' : '+12055066728'
+            'to' : userPhone,
+            'body' : message
 
         # Send post to postsms
         $.ajax(

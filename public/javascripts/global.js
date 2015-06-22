@@ -89,7 +89,7 @@
     if (confirmation) {
       $.ajax({
         type: 'DELETE',
-        url: "/deleteuser/" + ($(this).attr('rel')),
+        url: "/users/" + ($(this).attr('rel')),
         success: function(response) {
           return populateTable();
         },
@@ -110,9 +110,8 @@
     emailData = {
       'from': 'Notifications <youremail@yourdomain.com>',
       'to': userEmail,
-      'subject': 'Sent from web',
-      'text': 'This email has been sent using a Node webservice and Mailgun',
-      'v:custom_id': Date.now()
+      'subject': 'Sent using Mailgun',
+      'text': 'This email has been sent using Mailgun API'
     };
     if (confirmation) {
       $.ajax({
@@ -139,12 +138,9 @@
     if (userPhone != null) {
       message = prompt('Please enter your message for ' + userPhone);
       smsData = {
-        'sms': {
-          'from': '+12055066728',
-          'to': userPhone,
-          'body': message
-        },
-        'custom_id': Date.now()
+        'from': '+12055066728',
+        'to': userPhone,
+        'body': message
       };
       $.ajax({
         type: 'POST',
